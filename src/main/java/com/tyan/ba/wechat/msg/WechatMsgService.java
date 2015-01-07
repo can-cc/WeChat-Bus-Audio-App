@@ -1,0 +1,42 @@
+package com.tyan.ba.wechat.msg;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.logging.Logger;
+
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.jdom.output.XMLOutputter;
+
+import com.tyan.ba.wechat.msg.parser.WxMsgKit;
+import com.tyan.ba.wechat.msg.recv.WxRecvMsg;
+import com.tyan.ba.wechat.msg.send.WxSendMsg;
+
+
+
+
+public class WechatMsgService {
+	
+	public static WxRecvMsg recv(InputStream in) throws JDOMException, IOException {
+		return WxMsgKit.parse(in);
+	}
+	
+	public static void send(WxSendMsg msg,OutputStream out) throws JDOMException,IOException {
+		Document doc = WxMsgKit.parse(msg);
+		if(null != doc) {
+			new XMLOutputter().output(doc, out);
+		} else {
+			Logger.getAnonymousLogger().warning("发送消息时,解析出dom为空 msg :"+msg);
+		}
+	}
+	
+	public static WxSendMsg builderSendByRecv(WxRecvMsg msg) {
+		WxRecvMsg m = new WxRecvMsg(msg);
+		String from = m.getFromUser();
+		m.setFromUser(m.getToUser());
+		m.setToUser(from);
+		m.setCreateDt((System.currentTimeMillis() / 1000) + "");
+		return new WxSendMsg(m);
+	}
+}
