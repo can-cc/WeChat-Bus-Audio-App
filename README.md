@@ -19,7 +19,7 @@ admin后台CURD目录和音频，数据库还留了权限设计。储存方面�
 
 控制层用spring mvc（现在springmvc真是越来越好了）。
 
-web端做得比较传统，微信端用文字操作（像不像shell？微信订阅号让人们都返祖了^.^），用memcached记录，没有考虑缓存算法（以后得补，不过memcached已经实现了）。
+web端做得比较传统，微信端用文字操作（像不像shell？微信订阅号让人们都返祖了^_^），用memcached记录，没有考虑缓存算法（以后得补，不过memcached已经实现了）。
 
 junit半测试驱动。
 
